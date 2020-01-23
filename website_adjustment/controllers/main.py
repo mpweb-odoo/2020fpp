@@ -68,6 +68,13 @@ class WebsiteSaleProductCategories(WebsiteSale):
         ## E-commerce categories ##
         categories = search_product.mapped('public_categ_ids')
         lowest_categories = categories.filtered(lambda o: not o.child_id and (not o.website_id or o.website_id.id == request.website.id))
+        highest_categories = request.env['product.public.category']
+        for low_cat in lowest_categories:
+            parent_id = low_cat.parent_id
+            while parent_id:
+                parent_id = parent_id.parent_id
+                if parent_id:
+                    highest_categories |= parent_id
         ###########################
         if search:
             categories = search_product.mapped('public_categ_ids')
@@ -89,6 +96,21 @@ class WebsiteSaleProductCategories(WebsiteSale):
         ## Choose one product per category
         ##########################################################
         if lowest_categories:
+            if highest_categories:
+                for high_cat in highest_categories:
+                    children_categories = highest_categories.search([('id', 'child_of', high_cat.id), ('id', 'in', lowest_categories.ids)])
+                    display_category = False
+                    for l_cat in lowest_categories:
+                        if l_cat in children_categories:
+                            display_category = True
+                # if display_category:
+                #     products = request.env['product.template']
+                #     for high_cat in highest_categories:
+                #         product_cat = search_product.search([('public_categ_ids', 'in', high_cat.ids)], limit=1)
+                #         products |= product_cat
+                #
+                #     print('hc products:', products)
+            # else:
             products = request.env['product.template']
             for low_cat in lowest_categories:
                 product_cat = search_product.search([('public_categ_ids', 'in', low_cat.ids)], limit=1)
@@ -129,12 +151,14 @@ class WebsiteSaleProductCategories(WebsiteSale):
             'parent_category_ids': parent_category_ids,
             'search_categories_ids': search_categories and search_categories.ids,
             'lowest_categories': lowest_categories,
+            'highest_categories': highest_categories,
         }
-        if category:
+        if category and not category.child_id:
             values['main_object'] = category
             products_per_cat = search_product.search([('public_categ_ids', 'in', category.id)])
             values['products'] = products_per_cat
             return request.render("website_adjustment.product_list", values)
+        # elif category and category.child_id:
         return request.render("website_sale.products", values)
 
 
