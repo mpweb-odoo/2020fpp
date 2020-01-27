@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Download manual button-->
+    <template inherit_id='website_sale.product' id="product_manual_pdf_name" customize_show="True" name="Image Zoom">
+        <xpath expr="//a[@id='add_to_cart']" position='after'>
+            <t t-if="product_variant.manual_pdf">
+                <div>
+                    <a role="button" class="btn btn-primary btn-lg mt8 js_check_product" t-att-href="'/shop/product/download_manual/%s' % (product_variant.id) ">Download Manual</a>
+                </div>
+            </t>
+        </xpath>
+    </template>
+
+    <!-- Product categories shop view -->
+    <template id="product_categories_shop_view" customize_show="True" name="Image Zoom">
+        <t t-call="website.layout">
+            <t t-set="additional_title">Shop</t>
+            <style>
+                body {
+                font: 400 15px Lato, sans-serif;
+                line-height: 1.8;
+                color: #818181;
+                }
+                h1 {
+                font-size: 24px;
+                text-transform: uppercase;
+                color: #303030;
+                font-weight: 600;
+                margin-bottom: 30px;
+                }
+                .container-fluid {
+                padding: 80px 80px;
+                }
+                .item span {
+                font-style: normal;
+                }
+                .ml-1 {
+                margin-left: ($spacer * 2) !important;
+                }
+                p.one{
+                border-style: solid !important;
+                border-width:thin !important;
+                }
+            </style>
+            <div id="categ_bootstrap">
+                <h1 class="text-center">Product Categories</h1>
+                <div class="card-group">
+                    <t t-foreach="categories" t-as="categ">
+                        <div class="col-lg-2 col-sm-2">
+                            <div class="card-deck">
+                                <div class="card-body">
+                                    <div class="card text-center">
+                                        <br>
+                                            <a itemprop="name" t-att-href="'/shop/category/%s' %slug(categ)"
+                                               t-att-content="categ.name" class="card-img-top">
+                                                <img t-att-src="'/web/image/product.public.category/%i/image_medium/' %(categ.id)"/>
+                                            </a>
+                                        </br>
+                                        <br>
+                                            <a itemprop="name" t-att-href="'/shop/category/%s' %slug(categ)"
+                                               t-att-content="categ.name"
+                                               t-field="categ.name" class="card-title"/>
+                                        </br>
+                                        <a itemprop="name" t-att-href="'/shop/product/%s' %slug(product)"
+                                           t-att-content="product.name" t-field="product.name"
+                                           t-if="not categ and not category.child_id"/>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </t>
+                </div>
+            </div>
+        </t>
+    </template>
+
+</odoo>
