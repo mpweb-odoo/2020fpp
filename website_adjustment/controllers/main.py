@@ -143,7 +143,7 @@ class WebsiteSaleProductCategories(WebsiteSale):
                 'parent_category_ids': parent_category_ids,
                 'search_categories_ids': search_categories and search_categories.ids,
             }
-            return request.render("website_sale.products", values)
+            return request.render("website_adjustment.product_list", values)
 
 
 class CustomerPortalManual(CustomerPortal):
