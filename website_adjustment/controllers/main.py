@@ -42,11 +42,14 @@ class WebsiteSaleProductCategories(WebsiteSale):
 
         if category:
             categs = category.child_id
+        keep = QueryURL('/shop', category=category and int(category), search=search, attrib=attrib_list,
+                        order=post.get('order'))
 
         values = {
             'search': search,
             'category': category,
             'categories': categs,
+            'keep': keep,
         }
 
         if not category or category.child_id:
