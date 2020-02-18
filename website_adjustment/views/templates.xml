@@ -9,6 +9,19 @@
                 </div>
             </t>
         </xpath>
+        <xpath expr="//ol[@class='breadcrumb']" position='replace'>
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item">
+                    <a t-att-href="keep(category=0)">Product Categories</a>
+                </li>
+                <li t-if="category" class="breadcrumb-item">
+                    <a t-att-href="keep('/shop/category/%s' % slug(category), category=0)" t-field="category.name" />
+                </li>
+                <li class="breadcrumb-item active">
+                    <span t-field="product.name" />
+                </li>
+            </ol>
+        </xpath>
     </template>
 
     <!-- Product categories shop view -->
@@ -40,37 +53,23 @@
                 }
             </style>
             <div id="categ_bootstrap">
-                <h1 class="text-center">Product Categories</h1>
-                <div class="row" style="padding-left: 15px !important;">
+                <h1 class="text-center" t-if="category" t-esc="category.name"></h1>
+                <h1 class="text-center" t-if="categories and not category">PRODUCT CATEGORIES</h1>
+                <div >
                     <div class="col-md-4">
                         <ol class="breadcrumb">
-<!--                            >>>>>>>>>>>TO BE CHECKED<<<<<<<<<<<<<<<<<-->
-<!--                            <div class="col-md-4">-->
-<!--                                <ol class="breadcrumb">-->
-<!--                                    <li class="breadcrumb-item">-->
-<!--                                        <a t-att-href="keep(category=0)">Products</a>-->
-<!--                                    </li>-->
-
-<!--                                    <li t-foreach="breadcrumb" t-as="item">-->
-
-<!--                                         <a t-att-href="'/shop/category/%s' % slug(item)" t-field="item.name" />-->
-<!--                                    </li>-->
-
-<!--                                </ol>-->
-<!--                            </div>-->
-<!--                            <t t-if="category">-->
-<!--                                <t t-raw="category.parent_id"/>-->
-<!--                            </t>-->
-<!--                            >>>>>>>>>>>TO BE CHECKED<<<<<<<<<<<<<<<<<-->
                             <li t-if="not category and not product">
                                 <span>Welcome to the shop!</span>
+                            </li>
+                            <li t-if="category or product" class="breadcrumb-item">
+                                <a t-att-href="keep(category=0)">Product Categories</a>
                             </li>
                             <li t-if="category" class="breadcrumb-item">
                                 <a t-att-href="keep('/shop/category/%s' % slug(category.parent_id), category=0)" t-esc="category.parent_id.name"/>
                             </li>
-                            <li t-if="category" class="breadcrumb-item">
-                                <a t-att-href="keep('/shop/category/%s' % slug(category), category=0)" t-esc="category.name"/>
-                            </li>
+<!--                            <li t-if="category" class="breadcrumb-item">-->
+<!--                                <a t-att-href="keep('/shop/category/%s' % slug(category), category=0)" t-esc="category.name"/>-->
+<!--                            </li>-->
                             <li t-if="products" class="breadcrumb-item active">
                                 <span t-field="product.name" />
                             </li>
@@ -79,8 +78,8 @@
                 </div>
                 <div class="card-group" >
                     <t t-foreach="categories" t-as="categ">
-                        <div class="col-lg-2 col-sm-2">
-                            <div class="card text-center" style="width: 18rem; height: 18rem; margin-bottom: 35px;">
+                        <div class="card-deck">
+                            <div class="card text-center" style="width: 18rem; height: 18rem; ">
                                 <br>
                                     <a itemprop="name" t-att-href="'/shop/category/%s' %slug(categ)"
                                        t-att-content="categ.name" class="card-img-top">
@@ -107,21 +106,43 @@
     <template id="product_list" name="Product List">
         <t t-call="website.layout">
             <t t-set="additional_title">Product List</t>
+            <style>
+                 body {
+                font: 400 15px Lato, sans-serif;
+                line-height: 1.8;
+                color: #818181;
+                }
+                h1 {
+                font-size: 24px;
+                text-transform: uppercase;
+                color: #303030;
+                font-weight: 600;
+                margin-bottom: 30px;
+                }
+                .item span {
+                font-style: normal;
+                }
+                .ml-1 {
+                margin-left: ($spacer * 2) !important;
+                }
+                p.one{
+                border-style: solid !important;
+                border-width:thin !important;
+                }
+            </style>
+            <h1 class="text-center" t-if="category" t-esc="category.name"></h1>
             <div class="row" style="padding-left: 15px !important;">
                     <div class="col-md-4">
                         <ol class="breadcrumb">
                              <li class="breadcrumb-item">
-                                <a t-att-href="keep(category=0)">Main Categories</a>
-                            </li>
-                            <li t-if="not category and not product">
-                                <span>Welcome to the shop!</span>
+                                <a t-att-href="keep(category=0)">Product Categories</a>
                             </li>
                             <li t-if="category" class="breadcrumb-item">
-                                <a t-att-href="'/shop/category/%s' % slug(category)" t-esc="category.name"/>
+                                <a t-att-href="keep('/shop/category/%s' % slug(category.parent_id), category=0)" t-esc="category.parent_id.name"/>
                             </li>
-                            <li t-if="products and not category" class="breadcrumb-item active">
-                                <span t-field="product.name" />
-                            </li>
+<!--                            <li t-if="category" class="breadcrumb-item">-->
+<!--                                <a t-att-href="keep('/shop/category/%s' % slug(category), category=0)" t-esc="category.name"/>-->
+<!--                            </li>-->
                         </ol>
                     </div>
                 </div>
