@@ -17,7 +17,7 @@
                 <li t-if="category" class="breadcrumb-item">
                     <a t-att-href="keep('/shop/category/%s' % slug(category), category=0)" t-field="category.name" />
                 </li>
-                <li class="breadcrumb-item active">
+                <li t-if="product" class="breadcrumb-item active">
                     <span t-field="product.name" />
                 </li>
             </ol>
@@ -70,7 +70,7 @@
                             <li t-if="category" class="breadcrumb-item active">
                                 <a t-esc="category.name"/>
                             </li>
-                            <li t-if="products" class="breadcrumb-item active">
+                            <li t-if="product" class="breadcrumb-item active">
                                 <span t-field="product.name" />
                             </li>
                         </ol>
@@ -93,7 +93,7 @@
                                 </br>
                                 <a itemprop="name" t-att-href="'/shop/product/%s' %slug(product)"
                                    t-att-content="product.name" t-field="product.name"
-                                   t-if="not categ and not category.child_id"/>
+                                   t-if="not categ and not category.child_id and product"/>
                             </div>
                         </div>
                     </t>
