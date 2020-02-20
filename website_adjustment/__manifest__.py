@@ -15,7 +15,7 @@
     'website': "http://www.odoo.com",
 
     'category': 'website',
-    'version': '0.1',
+    'version': '0.2',
 
     'depends': [
         'website',
