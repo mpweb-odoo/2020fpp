@@ -64,12 +64,12 @@
                             <li t-if="category or product" class="breadcrumb-item">
                                 <a t-att-href="keep(category=0)">Product Categories</a>
                             </li>
-                            <li t-if="category" class="breadcrumb-item">
+                            <li t-if="category and category.parent_id" class="breadcrumb-item">
                                 <a t-att-href="keep('/shop/category/%s' % slug(category.parent_id), category=0)" t-esc="category.parent_id.name"/>
                             </li>
-<!--                            <li t-if="category" class="breadcrumb-item">-->
-<!--                                <a t-att-href="keep('/shop/category/%s' % slug(category), category=0)" t-esc="category.name"/>-->
-<!--                            </li>-->
+                            <li t-if="category" class="breadcrumb-item active">
+                                <a t-esc="category.name"/>
+                            </li>
                             <li t-if="products" class="breadcrumb-item active">
                                 <span t-field="product.name" />
                             </li>
@@ -79,7 +79,7 @@
                 <div class="card-group" >
                     <t t-foreach="categories" t-as="categ">
                         <div class="card-deck">
-                            <div class="card text-center" style="width: 18rem; height: 18rem; ">
+                            <div class="card text-center" style="width: 18rem; height: 15rem; ">
                                 <br>
                                     <a itemprop="name" t-att-href="'/shop/category/%s' %slug(categ)"
                                        t-att-content="categ.name" class="card-img-top">
@@ -137,12 +137,12 @@
                              <li class="breadcrumb-item">
                                 <a t-att-href="keep(category=0)">Product Categories</a>
                             </li>
-                            <li t-if="category" class="breadcrumb-item">
+                            <li t-if="category and category.parent_id" class="breadcrumb-item">
                                 <a t-att-href="keep('/shop/category/%s' % slug(category.parent_id), category=0)" t-esc="category.parent_id.name"/>
                             </li>
-<!--                            <li t-if="category" class="breadcrumb-item">-->
-<!--                                <a t-att-href="keep('/shop/category/%s' % slug(category), category=0)" t-esc="category.name"/>-->
-<!--                            </li>-->
+                            <li t-if="category" class="breadcrumb-item active">
+                                <a t-esc="category.name"/>
+                            </li>
                         </ol>
                     </div>
                 </div>
