@@ -159,9 +159,9 @@ class CustomerPortalManual(CustomerPortal):
             product_sudo = self._document_check_access('product.product', product_id, access_token=access_token)
         except (AccessError, MissingError):
             pass
-        pdf = product_id.manual_pdf
-        pdf = base64.b64decode(pdf)
-        pdfhttpheaders = [('Content-Type', 'application/pdf'), ('Content-Length', len(pdf))]
-        response = request.make_response(pdf, headers=pdfhttpheaders)
-        response.headers.add('Content-Disposition', content_disposition(product_id.manual_pdf_name + '.pdf'))
-        return response
+        if product_id.manual_pdf:
+            pdf = base64.b64decode(product_id.manual_pdf)
+            pdfhttpheaders = [('Content-Type', 'application/pdf'), ('Content-Length', len(pdf))]
+            response = request.make_response(pdf, headers=pdfhttpheaders)
+            response.headers.add('Content-Disposition', content_disposition(product_id.manual_pdf_name + '.pdf'))
+            return response
