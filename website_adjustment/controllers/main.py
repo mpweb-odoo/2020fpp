@@ -159,7 +159,6 @@ class CustomerPortalManual(CustomerPortal):
             product_sudo = self._document_check_access('product.product', product_id, access_token=access_token)
         except (AccessError, MissingError):
             pass
-
         if product_id.manual_pdf:
             pdf = base64.b64decode(product_id.manual_pdf)
             pdfhttpheaders = [('Content-Type', 'application/pdf'), ('Content-Length', len(pdf))]
