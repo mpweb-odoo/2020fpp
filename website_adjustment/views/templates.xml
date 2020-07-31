@@ -193,7 +193,9 @@
                                             </tr>
                                             <tr>
                                                 <span style="padding-right:15px">
-                                                    <t t-esc="product_attribute.value_ids[0].name"/>
+                                                    <t t-if="product_attribute.value_ids">
+                                                        <t t-esc="product_attribute.value_ids[0].name"/>
+                                                    </t>
                                                 </span>
                                             </tr>
                                         </t>
